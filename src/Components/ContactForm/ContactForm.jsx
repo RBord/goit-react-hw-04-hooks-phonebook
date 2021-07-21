@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import shortid from 'shortid';
 import s from '../ContactForm/ContactForm.module.css'
 
@@ -14,26 +14,24 @@ import s from '../ContactForm/ContactForm.module.css'
 //     return [state, setState]
 // }
 
-const ContactForm = () => {
-    const [name, setName] = useState(() => {
-        return JSON.parse(window.localStorage.getItem('name')) ?? '';
-    });
-    const [number, setNumber] = useState(() => {
-        return JSON.parse(window.localStorage.getItem('number')) ?? '';
-    })
+const nameInputId = shortid.generate();
+const numberInputId = shortid.generate();
+
+const ContactForm = ({onSubmit}) => {
+    const [name, setName] = useState('');
+    const [number, setNumber] = useState('');
     // state = {
     //     name: '',
     //     number: '',
     // }
-    const nameInputId = shortid.generate();
-    const numberInputId = shortid.generate();
+    
 
-    useEffect(() => {
-        window.localStorage.setItem('name', JSON.stringify(name))
-    }, [name]);
-    useEffect(() => {
-        window.localStorage.setItem('number', JSON.stringify(number))
-    }, [number]);
+    // useEffect(() => {
+    //     window.localStorage.setItem('name', JSON.stringify(name))
+    // }, [name]);
+    // useEffect(() => {
+    //     window.localStorage.setItem('number', JSON.stringify(number))
+    // }, [number]);
 
     const handleChange = evt => {
         const { name, value } = evt.currentTarget;
@@ -51,7 +49,7 @@ const ContactForm = () => {
     const handleSubmit = evt => {
         evt.preventDefault();
 
-        this.props.onSubmit(name, number);
+        onSubmit({name, number});
         reset();
     }
 
@@ -63,7 +61,7 @@ const ContactForm = () => {
     
     
         return (
-            <form onSubmit={()=>handleSubmit} className={s.form}>
+            <form onSubmit={handleSubmit} className={s.form}>
                 <label htmlFor={nameInputId} className={s.label}><p className={s.text}>Name</p>
                     <input
                         type="text"

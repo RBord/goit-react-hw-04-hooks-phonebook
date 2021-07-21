@@ -1,17 +1,16 @@
 import React from 'react';
 import s from '../ContactList/ContactList.module.css';
 
-const ContactList = ({value, onDeleteContact}) => {
-    console.log(value)
+function ContactList  ({contacts, onDeleteContact})  {
     return (
-        <ul value={value}>
-            {value.map(({ id, name, number}) => {
-                return (
-                    <div key={id} className={s.divItem}>
-                        <li className={s.liItem}>{name}: {number}</li> <button onClick={()=>onDeleteContact(id)} className={s.btn}>Delete</button>
-                    </div>
-                )
-            })}
+        <ul>
+            {contacts.map(({ id, name, number}) => (
+                
+                <div key={id} className={s.divItem}>
+                    <li className={s.liItem}>{name}: {number}</li> <button onClick={(evt)=>onDeleteContact(evt)} className={s.btn}>Delete</button>
+                </div>
+                
+            ))}
         </ul>
     )
 }
