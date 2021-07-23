@@ -1,37 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import shortid from 'shortid';
 import s from '../ContactForm/ContactForm.module.css'
-
-// const useLocalStorage = (defaultValue, key) => {
-//     const [state, setState] = useState(() => {
-//         return JSON.parse(window.localStorage.getItem(key)) ?? defaultValue;
-//     });
-
-//     useEffect(() => {
-//        window.localStorage.setItem(key, JSON.stringify(state)) 
-//     }, [state, key])
-
-//     return [state, setState]
-// }
 
 const nameInputId = shortid.generate();
 const numberInputId = shortid.generate();
 
 const ContactForm = ({onSubmit}) => {
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
-    // state = {
-    //     name: '',
-    //     number: '',
-    // }
+    const [name, setName] = useState(() => {
+        return JSON.parse(window.localStorage.getItem('name')) ?? '';
+    });
+    const [number, setNumber] = useState(() => {
+        return JSON.parse(window.localStorage.getItem('number')) ?? '';
+    });
     
-
-    // useEffect(() => {
-    //     window.localStorage.setItem('name', JSON.stringify(name))
-    // }, [name]);
-    // useEffect(() => {
-    //     window.localStorage.setItem('number', JSON.stringify(number))
-    // }, [number]);
+    useEffect(() => {
+        window.localStorage.setItem('name', JSON.stringify(name))
+    }, [name]);
+    useEffect(() => {
+        window.localStorage.setItem('number', JSON.stringify(number))
+    }, [number]);
 
     const handleChange = evt => {
         const { name, value } = evt.currentTarget;
